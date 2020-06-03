@@ -1,0 +1,9 @@
+tail -f /var/log/auth.log | while read LOGLINE
+do
+    # echo  $LOGLINE
+
+    [[ $LOGLINE =~ ^.*refused[[:space:]]connect[[:space:]]from[[:space:]]([0-9\.]+).*$ ]] && echo "refused ip - ${BASH_REMATCH[1]} - already banned"
+    [[ $LOGLINE =~ ^.*User[[:space:]].*[[:space:]]from[[:space:]]([0-9\.]+)[[:space:]]not[[:space:]]allowed[[:space:]]because[[:space:]]not[[:space:]]listed[[:space:]]in[[:space:]]AllowUsers$ ]] && echo "will ban ip - ${BASH_REMATCH[1]}" && /home/ranapat/.ssh/tools/ban_ssh ${BASH_REMATCH[1]}
+    [[ $LOGLINE =~ ^.*Invalid[[:space:]]user[[:space:]].*[[:space:]]from[[:space:]]([0-9\.]+)[[:space:]]port[[:space:]][0-9]+$ ]] && echo "will ban ip - ${BASH_REMATCH[1]}" && /home/ranapat/.ssh/tools/ban_ssh ${BASH_REMATCH[1]}
+
+done

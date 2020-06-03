@@ -1,0 +1,2 @@
+sed -i "s/1.2.3.4/$1, 1.2.3.4/g" /etc/hosts.deny
+# /etc/init.d/ssh restart &> /dev/null
